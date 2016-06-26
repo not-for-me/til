@@ -1,3 +1,6 @@
 **/project/
 **/.idea/
 **/target/
+**/assignment.sbt
+**/build.sbt
+
