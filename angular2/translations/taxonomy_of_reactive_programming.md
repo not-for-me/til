@@ -1,3 +1,6 @@
+>
+Angular2의 코어 멤버인 [victorsavkin](https://twitter.com/victorsavkin)의 글인 "[THE TAXONOMY OF REACTIVE PROGRAMMING](http://victorsavkin.com/post/146359880996/the-taxonomy-of-reactive-programming)"의 번역입니다. 번역에 대한 피드백이나 오류는 언제든지 [트윗](https://twitter.com/JoeWoojin)이나 [메일](mailto:jwj0831@gmail.com)로 알려주세요.
+
 # 반응형 프로그래밍 개념 정리
 우리는 모두 어느 정도 반응형 프로그래밍의 기법을 사용하여 사용자 인터페이스를 구축합니다. 하나의 Todo 항목이 늘었났다고 해봅시다. 우리는 화면에 새 항목을 그려줘야 합니다. 이번엔 누군가가 Todo 항목의 제목을 변경했다면 어떨까요? 우리는 DOM의 텍스트 요소를 갱신해줘야 합니다. 이와 같은 일들을 도와줄 수십 종류의  라이브러리들이 이미 존재합니다. 이러한 라이브러리들은 비슷한 점도 있으면서도 각기 다른 점도 가지고 있습니다.
 
@@ -38,7 +41,7 @@ moves.subscribe(position);
 position.value // returns the current position of the mouse
 ```
 
-이 예제는 하나의 이벤트 흐름인 `moves` observable을 가지고 있습니다. 사용자가 매번 마우스를 움직일 때마다, observable은 이벤트를 발산(emit)시킵니다. 우리는 상태값인 `position` subject를 생성하여 `moves` observable을 사용합니다. `position`값의 속성은 마우스의 현재 위치를 반환합니다. 이 예제에서 이벤트와 상태가 무엇인지 묘사해줄 뿐 아니라 상태는 종종 이벤트의 순차적인 나열에서 생성된다는 것을 보여줍니다.
+이 예제는 하나의 이벤트 흐름인 `moves`라는 `observable`을 가지고 있습니다. 사용자가 매번 마우스를 움직일 때마다, `observable`은 이벤트를 발산(emit)시킵니다. 우리는 상태값인 `positon` `subject`를 생성하여 `moves` `observable`을 사용합니다. `position`값의 속성은 마우스의 현재 위치를 반환합니다. 이 예제에서 이벤트와 상태가 무엇인지 묘사해줄 뿐 아니라 상태는 종종 이벤트의 순차적인 나열에서 생성된다는 것을 보여줍니다.
 
 이벤트와 상태라는 이분법이 단지 RxJS만의 산물이 아니라는 것을 보여주기 위해서 이번에는 Angular의 예제를 봅시다.
 
@@ -77,7 +80,50 @@ class EmployeeCmp {
 }
 ```
 
-이 예제에서 employee 컴포넌트의 name 입력은 company 컴포넌트의 employees 프로퍼티에서 끄집어 낸 상태입니다. 주의할 점은 우리는 오로지 가장 최신의 이름 값에만 신경을 쓴다는 것입니다. 예를 들어 중도에 갖고있던 이름 값을 지나쳐도 어떤 것에도 영향을 미치지 않습니다. 모든 단일한 값이 중요하여 발생된 순서를 포함하여 그 값을 중요시 여길 때 선택된 이벤트의 순차적 나열과 대조해 보십시오.
+이 예제에서 `employee` 컴포넌트의 `name` 입력은 `company 컴포넌트의 employees 프로퍼티에서 끄집어 낸 상태입니다. 주의할 점은 우리는 오로지 가장 최신의 이름 값에만 신경을 쓴다는 것입니다. 예를 들어 중도에 갖고있던 이름 값을 지나쳐도 어떤 것에도 영향을 미치지 않습니다. 모든 단일한 값이 중요하여 발생된 순서를 포함하여 그 값을 중요시 여길 때 선택된 이벤트의 순차적 나열과 대조해 보십시오.
 
 ### 정리
 반응형 프로그램의 세계 안에 이벤트 스트림과 상태라는 두 개의 카테고리가 있습니다. 이벤트 스트림은 사용자에게 노출되지 않고 시간에 따라 흐르는 독립적인 값의 순차적인 나열입니다. 상태는 사용자게에 종종 노출되기도 하고 의미있는 형태를 갖는 시간에 따라 변할 수 있는 값입니다.
+
+## 도출와 실행 (deriving and executing)
+
+먼저 마우스 클릭에 대한 RxJS observable이 다음과 같이 있다고 해봅시다.
+
+```typescript
+const clicks: Observable<MouseEvent> = fromEvent(button, "click");
+```
+
+이 observable로 무얼 할 수 있을까요? 당장 드는 생각은 좌표를 표시하는 것이네요.
+```typescript
+clicks.forEach(e => {
+  console.log("click", "x", e.screenX, "y", e.screenY);
+});
+```
+
+나름 유용하지만, 콜백을 사용하는 것과 큰 차이가 없습니다.
+
+```javascript
+button.addEventListener("click", (e) => {
+  console.log("click", "x", e.screenX, "y", e.screenY);
+});
+```
+
+마우스 클릭 observable의 진짜 가치는 새로운 observable을 도출할 수 있다는 점입니다.
+
+```typescript
+type Pair = [number, number];
+const coordinates: Observable<Pair> = clicks.map(e => [e.screenX, e.screenY]);
+```
+
+`map` 연산이 제공한 것은 오로지 새로운 `observable`을 제공한다는 점입니다. 이로 인해 프로그램에 영향을 주는 것은 전혀 없기에, 이 프로그램은 사이드 이펙트를 갖지 않습니다.
+
+이제, 조금 더 깊이 들어가서 몇가지 RxJS 연산을 사용하여 새로운 `observable`을 생성해 봅시다. 이번에 생성할 `observable`은 모든 요소가 `to`와 `from`의 좌표를 갖고 있습니다.
+
+```typescript
+type Pair = [number, number];
+const coordinates: Observable<Pair> = clicks.map(e => [e.screenX, e.screenY]);
+const startFromSecond: Observable<Pair> = coordinates.skip(1);
+const pairs: Observable<[Pair, Pair]> = zip(coordinates, startFromSecond);
+```
+
+다시 한번, `observable` 사이의 관계만 살펴봅시다.
