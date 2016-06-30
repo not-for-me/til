@@ -43,7 +43,8 @@ object Anagrams {
   /** Converts a sentence into its character occurrence list. */
   def sentenceOccurrences(s: Sentence): Occurrences = s match {
     case List(x) => wordOccurrences(x)
-    case x :: xs => wordOccurrences(x) ++ sentenceOccurrences(xs)
+    case x :: xs => (wordOccurrences(x) ++ sentenceOccurrences(xs)).groupBy(_._1)
+      .map(kv => (kv._1, kv._2.map(_._2).sum)).toList.sortWith((a, b) => a._1 < b._1)
   }
 
   /** The `dictionaryByOccurrences` is a `Map` from different occurrences to a sequence of all
@@ -114,7 +115,14 @@ object Anagrams {
     * Note: the resulting value is an occurrence - meaning it is sorted
     * and has no zero-entries.
     */
-  def subtract(x: Occurrences, y: Occurrences): Occurrences = ???
+  def subtract(x: Occurrences, y: Occurrences): Occurrences = {
+    val subtracted = for (occurence <- x) yield y.foldLeft(occurence)((o, yo) => {
+      if (o._1 == yo._1) (o._1, o._2 - yo._2)
+      else (o._1, o._2)
+    })
+
+    subtracted.filter(o => o._2 > 0)
+  }
 
   /** Returns a list of all anagram sentences of the given sentence.
     *
@@ -156,5 +164,26 @@ object Anagrams {
     *
     * Note: There is only one anagram of an empty sentence.
     */
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = ???
+  /*
+  1. sentence에서 문자단위로 occurrence 배열을 만든다.
+  2. combination으로 가능한 occurrrence 조합을 꺼낸다.
+  3. dictionary에 해당 단어목록이 있는지 확인한다.
+    3-1. 단어목록이 있으면 해당 occurrence를 기존 occurrences에서 의미있는 단어가 있는지 확인 후 있으면 병합해서 sentence  반환 아니면 패스
+    3-2. 단어목록이 없으면 다음 단어목록 3번 수행
+   */
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+    def loop(words: List[Word], occurrences: Occurrences): List[Sentence] = {
+      (for (c <- combinations(occurrences)) yield {
+        dictionaryByOccurrences.get(c) match {
+          case Some(v) => loop(words, subtract(occurrences, c))
+          case _ => List()
+        }
+      }).flatten
+    }
+
+    sentence match {
+      case List() => List(Nil)
+      case _ => loop(List(), sentenceOccurrences(sentence))
+    }
+  }
 }

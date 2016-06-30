@@ -1,14 +1,12 @@
 package forcomp
 
-import org.scalatest.FunSuite
-
+import forcomp.Anagrams._
 import org.junit.runner.RunWith
+import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
 
-import Anagrams._
-
 @RunWith(classOf[JUnitRunner])
-class AnagramsSuite extends FunSuite  {
+class AnagramsSuite extends FunSuite {
 
   test("wordOccurrences: abcd") {
     assert(wordOccurrences("abcd") === List(('a', 1), ('b', 1), ('c', 1), ('d', 1)))
@@ -21,6 +19,10 @@ class AnagramsSuite extends FunSuite  {
 
   test("sentenceOccurrences: abcd e") {
     assert(sentenceOccurrences(List("abcd", "e")) === List(('a', 1), ('b', 1), ('c', 1), ('d', 1), ('e', 1)))
+  }
+
+  test("sentenceOccurrences: Roberto Carlos") {
+    assert(sentenceOccurrences(List("Roberto", "Carlos")) === List(('a', 1), ('b', 1), ('c', 1), ('e', 1), ('l', 1), ('o', 3), ('r', 3), ('s', 1), ('t', 1)))
   }
 
 
@@ -46,6 +48,12 @@ class AnagramsSuite extends FunSuite  {
     assert(subtract(lard, r) === lad)
   }
 
+  test("subtract: ablr - br") {
+    val lard = List(('a', 3), ('b', 2), ('l', 1), ('r', 4))
+    val r = List(('b', 2), ('r', 1))
+    val lad = List(('a', 3), ('l', 1), ('r', 3))
+    assert(subtract(lard, r) === lad)
+  }
 
   test("combinations: []") {
     assert(combinations(Nil) === List(Nil))
