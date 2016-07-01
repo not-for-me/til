@@ -6,7 +6,7 @@ Angular2의 코어 멤버인 [victorsavkin](https://twitter.com/victorsavkin)의
 
 이 글에서 저는 반응형 프로그래밍의 각기 독립적인 4가지 주요 개념을 설명할 것입니다.
 1. 이벤트와 상태 (events and state)
-2. 유도와 실행 (deriving and executing)
+2. 도출과 실행 (deriving and executing)
 3. 구체화와 투명도 (reified and transparent)
 4. 자기 관찰과 외부 관찰 (self observation and external observation)
 
@@ -85,7 +85,7 @@ class EmployeeCmp {
 ### 정리
 반응형 프로그램의 세계 안에 이벤트 스트림과 상태라는 두 개의 카테고리가 있습니다. 이벤트 스트림은 사용자에게 노출되지 않고 시간에 따라 흐르는 독립적인 값의 순차적인 나열입니다. 상태는 사용자게에 종종 노출되기도 하고 의미있는 형태를 갖는 시간에 따라 변할 수 있는 값입니다.
 
-## 도출와 실행 (deriving and executing)
+## 도출과 실행 (deriving and executing)
 
 먼저 마우스 클릭에 대한 RxJS observable이 다음과 같이 있다고 해봅시다.
 
@@ -126,4 +126,54 @@ const startFromSecond: Observable<Pair> = coordinates.skip(1);
 const pairs: Observable<[Pair, Pair]> = zip(coordinates, startFromSecond);
 ```
 
-다시 한번, `observable` 사이의 관계만 살펴봅시다.
+다시 한번, `observable` 사이의 관계만 집중해 봅시다. 도출이란 어떻게 서로 다른 존재(entity)가 어떻게 연관되어 있는지에 대한 모든 것입니다. 결론적으로는 여러분의 프로그램이 수행하게 연산을 나타내는 하나의`observable` 또는 여러 `observable`이 됩니다. 이는 연산(computation) 그 자체가 아니라 연산의 표현입니다. 사용자에게 실제로 노출되는 것은 아무것도 없습니다.
+
+사용자에게 무엇인가를 보여주기 위해서 (다른 말로 표현하자면, 부수효과를 실행하기 위해서는) 우리는 `forEach`함수의 호출이 필요하다.
+
+```typescript
+pairs.forEach(([from, to]) => {
+  console.log("You moved from: ", from[0], from[1], " to: ", to[0], to[1]);
+});
+```
+
+RxJS만이 도출과 부수효과의 수행을 독립적인 연산으로 만들어주는 유일한 라이브러리가 아닙니다. Angular 역시 가능합니다.
+
+```typesecipt
+@Component({
+  selector: 'company',
+  template: `
+    CEO: <employee [name]="ceo.name"></employee>
+  `,
+  directives: [EmployeeCmp]
+})
+class CompanyCmp {
+  ceo: {name: string};
+}
+
+@Component({
+  selector: 'employee',
+  template: `
+    Name {{name}}
+  `
+})
+class EmployeeCmp {
+  @Input() name: string;
+
+  ngOnChanges(changes) {
+    // effects
+    console.log("changes detected", changes);
+  }
+}
+```
+`name`속성은 `ceo` 속성에 도출되어 `ngOnChanges`가 부수효과를 수행하는데 사용됩니다.
+
+### 뜨거운 observable과 차가운 observable. 프라미스에 대해서
+흥미롭게도 RxJS의 observable은
+Interestingly, because RxJS observables are cold, the library has to separate the two operations. It has to provide forEach and have some notion of subscription. Otherwise, no side effects will ever be executed.
+
+Promises, on the other hand, are hot. In other words, once the producer promise has a resolved value, it will notify all the derived promises. Because of that promises can get away with having the single ‘then’ operator, which can be used for both derivation and executing side effects.
+
+The “hot/cold” topic is nuanced and affects not just side effects and subscriptions, but also cancellation. Read more about it in this [excellent article by Ben Lesh](http://t.umblr.com/redirect?z=https%3A%2F%2Fmedium.com%2F%40benlesh%2Fhot-vs-cold-observables-f8094ed53339%23.nvtk997kl&t=Njk4ZDY1MmMxYjliM2FlMTI5MjMyNDkyODQyZTVhZWRiMGNiMjQ2MSw5NXFWZUFpZA%3D%3D).
+
+### 정리
+There are two ways of dealing with time-varied variables: deriving new time-varied variables from them, and executing side effects when the values change. Separating the two makes the code more composable and easier to refactor.
