@@ -47,6 +47,7 @@ position.value // returns the current position of the mouse
 > 역자 주: RxJS가 익숙하지 않은 분들은 observable이 계속해서 발생하는 이벤트 흐름의 발생출처 라고 생각하시고 읽으시면 됩니다. 그래서 이름과 같이 _관찰가능한_ 대상이기에 observable이라고 합니다. RxJS에 대해 자세히 알고 싶으신 분들은 [rxmarble](http://rxmarbles.com/)의 그림을 참조해 보세요.
 
 이벤트와 상태라는 이분법이 단지 RxJS만의 산물이 아니라는 것을 보여주기 위해서 이번에는 Angular의 예제를 봅시다.
+
 ```typescript
 @Component({
   selector: 'company',
