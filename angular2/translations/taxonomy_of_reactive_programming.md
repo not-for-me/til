@@ -180,6 +180,11 @@ class EmployeeCmp {
 
 반면에 프라미스는 뜨겁습니다. 뜨겁다는 의미는 프라미스를 제공하는 쪽에서 값이 정해지면, 모든 도출된 프라미스에게 전달이 됩니다. 왜냐하면 프라미스는 도출과 부수효과를 실행하는데 모두 사용될 수 있는 `then` 연산을 통해서 이를 해낼 수 있기 때문입니다.
 
+```typescript
+const jsonPromise = fetchData().then(result => result.json); //deriving a new value
+fetchData().then(result => console.log(result.json)); // executing side effects
+```
+
 hot/cold 주제는 미묘하지만 단순히 부수효과나 구독과 관련해서 영향을 주는 것이 아니라 취소와도 관련되어 있습니다. 더 자세한 내용은 Ben Lesh의 [훌륭한 글](https://medium.com/@benlesh/hot-vs-cold-observables-f8094ed53339#.nkybzxi7w)을 참조하세요.
 
 > 역자 주: Hot과 Cold Observable에 대한 차이는 Rx 방식의 개념에서 나온 것으로 자세한 내용은 위의 글을 참조해 주시기 바랍니다. 간단하게 Hot은 변경된 데이터가 있으면 Push 형태로 바로 전달해 주는 것이고, Cold는 변경된 데이터를 구독하는 리스너가 있기 전까지 실행되지 않는 Pull 형태라고 보시면 됩니다.
