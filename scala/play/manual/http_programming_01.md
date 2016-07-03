@@ -2,7 +2,7 @@
 
 ## Action이란?
 
-플레이 어플리케이션에서 대부분의 요청은 `Action`이 처리합니다.
+Play 어플리케이션에서 대부분의 요청은 `Action`이 처리합니다.
 
 `play.api.mvc.Action`은 기본적으로 요청을 처리하여 사용자에게 반환할 결과값을 생성하는 `(play.api.mvc.Request => play.api.mvc.Result)` 함수입니다.
 
@@ -53,3 +53,35 @@ Action(parse.json) { implicit request =>
 }
 ```
 Body parser는 매뉴얼의 후반부에서 다룰 예정입니다. 지금은 Action의 값을 생성하는 다른 메서들들은 기본으로 *Any content body parser* 를 사용한다는 점입니다.
+
+## Controller는 action 생성기
+
+하나의 `Controller`는 `Action`값을 생성하는 객체에 지나지 않습니다.
+
+Controller는 [의존성 주입](https://www.playframework.com/documentation/2.5.x/ScalaDependencyInjection)의 이점을 취해 클래스로 선언하거나 객체로 선언할 수 있습니다.
+
+> Note: Play의 향후 버전에서 controller를 객체로 선언하는 것은 지원하지 않을 수 있다는 점을 주의해 주세요. 클래스의 사용을 권장하는 방식입니다.
+
+action 생성기를 정의하는 가장 간단한 사용법은 인수 없이 action 값을 반환하는 메서드입니다.:
+
+```scala
+package controllers
+
+import play.api.mvc._
+
+class Application extends Controller {
+
+  def index = Action {
+    Ok("It works!")
+  }
+
+}
+```
+
+물론, action 생성 메서드는 인수를 가질 수 있으며, Action 클로저에서 이러한 인수를 포획하여 사용할 수 있습니다.:
+
+```scala
+def hello(name: String) = Action {
+  Ok("Hello " + name)
+}
+```
