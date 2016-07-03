@@ -1,0 +1,25 @@
+New log file opened at Sun Jul 03 20:43:29 KST 2016 by 10225@Woojinui-MacBook-Pro.local
+Taking next connection to: 58629
+New client attempting to connect on port: 58630-58629
+  Address = /192.168.0.4:58629
+This client on port 58630 has uuid e1490bbf-6b8b-445f-83e8-867811b39233 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-e1490bbf-6b8b-445f-83e8-867811b39233
+Taking next connection to: 58629
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 58629
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 58629
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 58629
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 58629
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 58629
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 58629
