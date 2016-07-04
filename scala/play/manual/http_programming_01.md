@@ -85,3 +85,71 @@ def hello(name: String) = Action {
   Ok("Hello " + name)
 }
 ```
+
+## 간단한 결과
+지금까지는 단지 상태코드를 지닌 HTTP결과, 일련의 HTTP 헤더와 웹 사용자에게 전송할 바디로 이루어진 같은 간단한 결과만을 다루었습니다.
+
+이러한 결과는 `play.api.mvc.Result`로 정의할 수 있습니다.:
+
+```scala
+import play.api.http.HttpEntity
+
+def index = Action {
+  Result(
+    header = ResponseHeader(200, Map.empty),
+    body = HttpEntity.Strict(ByteString("Hello world!"), Some("text/plain"))
+  )
+}
+```
+
+물론 공통의 결과를 생성하는데 위에서 살펴본 `Ok` 결과와 같은 몇가지 헬퍼 메서드를 사용할 수 있습니다.
+
+```scala
+def index = Action {
+  Ok("Hello world!")
+}
+```
+
+위 예제는 정확하게 이전의 코드와 동일한 결과를 생성합니다.
+
+여기 다양한 결과를 생성하는 몇가지 예제가 좀 더 있습니다.:
+
+```scala
+val ok = Ok("Hello world!")
+val notFound = NotFound
+val pageNotFound = NotFound(<h1>Page not found</h1>)
+val badRequest = BadRequest(views.html.form(formWithErrors))
+val oops = InternalServerError("Oops")
+val anyStatus = Status(488)("Strange response type")
+```
+
+여기의 모든 헬퍼 메서드는 `play.api.mvc.Results` 트레이트와 동반 객체에서 확인할 수 있습니다.
+
+
+
+## 리다이렉트 역시 간단히 결과 입니다.
+새로운 URL로 브라우저를 리다이렉트하는 것은 또 다른 간단한 결과에 불과합니다. 그러나 이러한 결과 타입은 응답 본문을 취하지 않습니다.
+
+리다이렉트 결과를 생성하는데 필요한 여러 헬퍼 메서드가 있습니다.:
+
+```scala
+def index = Action {
+  Redirect("/user/home")
+}
+```
+
+기본적으로 `303 SEE_OTHER` 응답 타입을 사용하지만 필요에 따라서 좀 더 구체적은 응답 코드를 설정할 수도 있습니다.:
+
+```scala
+def index = Action {
+  Redirect("/user/home", MOVED_PERMANENTLY)
+}
+```
+
+## `TODO` 더미 페이지
+
+`TODO`로 빈 `Action`을 구현할 수 있습니다. 이 때 결과는 ‘Not implemented yet’ 페이지가 됩니다.:
+
+```scala
+def index(name:String) = TODO
+```
