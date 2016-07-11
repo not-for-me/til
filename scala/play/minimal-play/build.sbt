@@ -10,3 +10,5 @@ lazy val `simple-vocabuary-teacher` =
 routesGenerator := InjectedRoutesGenerator
 
 com.typesafe.sbt.SbtScalariform.scalariformSettings
+
+routesImport += "binders.PathBinders._"

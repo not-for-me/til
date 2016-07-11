@@ -6,8 +6,7 @@ import play.api.i18n.Lang
 class Import extends Controller {
   def importWord(
     sourceLanguage: Lang,
-    word: Lang,
+    word: String,
     targetLanguage: Lang,
-    translation: String 
-  ) = TODO
+    translation: String) = TODO
 }

@@ -1,2 +1,2 @@
 GET     /test     controllers.Default.todo
-PUT     /import/word/:sourceLang/:word/:targetLang/:translation  controllers.Import.importWprd(sourceLang: play.api.i18n.Lang, word, targetLang: play.api.i18n.Lang, translation)
+PUT     /import/word/:sourceLang/:word/:targetLang/:translation  controllers.Import.importWord(sourceLang: play.api.i18n.Lang, word, targetLang: play.api.i18n.Lang, translation)
