@@ -1,4 +1,4 @@
-> Angular2 코어 멤버인 [victorsavkin](https://twitter.com/victorsavkin)의 글 "[THE TAXONOMY OF REACTIVE PROGRAMMING](http://victorsavkin.com/post/146359880996/the-taxonomy-of-reactive-programming)"을 [허락](https://twitter.com/JoeWooJin/status/746147467951931393)을 받고 번역 하였습니다. 번역에 대한 피드백이나 오류는 주저없이 [트윗](https://twitter.com/JoeWoojin)이나 [메일](mailto:jwj0831@gmail.com)로 알려주세요.
+> Angular2 코어 멤버인 [victorsavkin](https://twitter.com/victorsavkin)의 글 "[THE TAXONOMY OF REACTIVE PROGRAMMING](http://victorsavkin.com/post/146359880996/the-taxonomy-of-reactive-programming)"을 [허락](https://twitter.com/JoeWoojin/status/746147467951931393)을 받고 번역 하였습니다. 번역에 대한 피드백이나 오류는 주저없이 [트윗](https://twitter.com/JoeWoojin)이나 [메일](mailto:jwj0831@gmail.com)로 알려주세요.
 
 > This post is the translation version of the original post "[THE TAXONOMY OF REACTIVE PROGRAMMING](http://victorsavkin.com/post/146359880996/the-taxonomy-of-reactive-programming)" with allowed to translate by the author [victorsavkin](https://twitter.com/victorsavkin).
 
