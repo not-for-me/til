@@ -202,7 +202,7 @@ If you are familiar with Angular 1, you must be wondering “What happened to di
 
 Actually directives are still here in Angular 2. The component is just the most important type of a directive, but not the only one. A component is a directive with a template. But you can still write decorator-style directives, which do not have templates.
 
-![지시자](https://raw.githubusercontent.com/not-for-me/til/master/angular2/translations/images/directives.png)
+![지시자](https://raw.githubusercontent.com/not-for-me/til/master/angular2/translations/images/directive.png)
 
 
 
