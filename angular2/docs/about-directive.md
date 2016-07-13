@@ -5,6 +5,7 @@
 오늘 다룰 개념은 Angularjs를 사용해 보신 분들은 적어도 한 번쯤은 들어보았을 지시자(Directive)입니다. 지시자에 대한 설명을 먼저 단어의 의미 에서부터 출발해 보기로 합니다. 지시자 본래의 단어 Directive를 네이버에서 검색할 때 제일 처음 나오는 [사전적 정의](http://endic.naver.com/enkrEntry.nhn?sLn=kr&entryId=699828d2bdf24c34bacde1c12b0691e9&query=directive)는 다음과 같습니다.
 
 > (공식적인) 지시[명령]
+>
 > A directive is an official instruction that is given by someone in authority.
 
 마찬가지로 네이버 한국어 사전에서 ["지시"의 의미](http://krdic.naver.com/detail.nhn?docid=35720700)를 찾아보면 1. 가리켜 보임, 2. 일러서 시킴. 또는 그 내용 등으로 나오는데 우리가 관심 갖는 의미는 2번째에 해당된다고 볼 수 있겠네요.
@@ -85,6 +86,13 @@ export class MyDirective {
 오늘 소개했던 지시자와 Component는 Angular 프레임워크의 기둥과도 같은 중요한 개념입니다. 위에서 설명한 바와 같이 사실 Component도 지시자의 이야기 했습니다. 실제로 `@Component` 데코레이터는 `@Directive`에 `template`가 포함된 확장된 형태로 구현되어 있습니다. 넓은 의미의 지시자는 DOM을 다루는 데 필요한 모든 것이기 때문에 우리가 만들 어플리케이션은 지시자들을 조합하여 구성하게 됩니다. HTML template을 포함한 Component와 구조/속성 지시자들을 활용하여 새로운 Component를 만들고, 또 이렇게 만들어진 Component 들을 조합하여 하나의 완성된 어플리케이션을 구축하는 것입니다. 따라서 지난 시간에 설명한 Component의 트리의 개념을 지시자를 포함해서 생각하면 다음과 같이 표현할 수 있습니다.
 
 ![컴포넌트,지시자의 트리](http://blog.mgechev.com/images/component-tree-angular2.png)
+[참조](http://blog.mgechev.com/2016/01/23/angular2-viewchildren-contentchildren-difference-viewproviders/)
+
+위 그림을 보면 여러 지시자와 Component를 조합하여 새로운 Component를 부모로 가질 수 있지만 지시자는 부모가 될 수 없다는 점을  알 수 있습니다.
 
 
-지시자는 component를 포함하여
+## 종합예제
+
+그럼 한 번 지금까지 간단하게 살펴 보았던 컴포넌트, 데이터바인딩과 오늘 배운 내용들을 종합한 간단한 예제를 작성해 보기로 합니다. 예제는 초 간단 Todo 리스트입니다. 먼저 작동 예제를 살펴봅시다.
+
+<iframe width="100%" height="600" style="width: 100%; height: 600px;" src="https://embed.plnkr.co/MlLEkk/" frameborder="0" allowfullscren="allowfullscren"></iframe>
