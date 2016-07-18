@@ -2,6 +2,8 @@ package streams
 
 import common._
 
+import scala.collection.mutable.ListBuffer
+
 /**
  * This trait represents the layout and building blocks of the game
  *
@@ -142,13 +144,13 @@ trait GameDef {
      * which are inside the terrain.
      */
     def legalNeighbors: List[(Block, Move)] = {
-      val list = Nil
-      if(left.isLegal) (left, Left) :: list
-      if(right.isLegal) (right, Right) :: list
-      if(up.isLegal) (up, Up) :: list
-      if(down.isLegal) (down, Down) :: list
+      val list = ListBuffer.empty[(Block, Move)]
+      if(left.isLegal) list += Tuple2(left, Left)
+      if(right.isLegal) list += Tuple2(right, Right)
+      if(up.isLegal) list += Tuple2(up, Up)
+      if(down.isLegal) list += Tuple2(down, Down)
 
-      list
+      list.toList
     }
 
     /**
