@@ -75,8 +75,10 @@ trait Solver extends GameDef {
       val more = for {
         path <- initial
         next <- newNeighborsOnly(neighborsWithHistory(path._1, path._2), explored)
-      } yield next
-      from(more, more.map(p => p._1).toSet ++ explored)
+      } yield {
+        next
+      }
+      initial #::: from(more, explored ++ more.map(_._1))
     }
   }
 
@@ -91,8 +93,11 @@ trait Solver extends GameDef {
     */
   lazy val pathsToGoal: Stream[(Block, List[Move])] = {
     for (
-      path <- pathsFromStart if path._1 == Block(goal, goal)
-    ) yield path
+      path <- pathsFromStart
+      if path._1 == Block(goal, goal)
+    ) yield {
+      path
+    }
   }
 
   /**

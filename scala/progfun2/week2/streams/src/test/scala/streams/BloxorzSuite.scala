@@ -37,6 +37,13 @@ class BloxorzSuite extends FunSuite {
     val optsolution = List(Right, Right, Down, Right, Right, Right, Down)
   }
 
+  test("goalBlock") {
+    new Level1 {
+      println(startBlock)
+      println(goal)
+    }
+  }
+
   test("neighborsWithHistory") {
     new Level1 {
       assert(neighborsWithHistory(Block(Pos(1, 1), Pos(1, 1)), List(Left, Up)) ==
