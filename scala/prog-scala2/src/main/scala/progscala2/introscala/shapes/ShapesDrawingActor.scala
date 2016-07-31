@@ -1,10 +1,12 @@
 package progscala2.introscala.shapes
 
-object Message {
+object Messages {
   object Exit
   object Finished
   case class Response(message: String)
 }
+
+import akka.actor.Actor
 
 class ShapesDrawingActor extends Actor {
   import Messages._
@@ -19,6 +21,6 @@ class ShapesDrawingActor extends Actor {
     case unexpected =>
       val response = Response(s"ERROR: Unknown messge: $unexpected")
       println(s"ShapesDrawingActor: $response")
-      sender ! response
+      sender ! response 
   }
 }

@@ -1,5 +1,6 @@
-object Upper {
-  def upper(strings: String*) = strings.map(_.toUpperCase())
+object Upper2 {
+  def main(args: Array[String]) = {
+    val output = args.map(_.toUpperCase()).mkString(" ")
+    println(output)
+  }
 }
-
-println(Upper.upper("Hello", "Scala"))
