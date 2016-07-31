@@ -1,7 +1,6 @@
 package kr.notforme.bank
 
 import kr.notforme.comm.{Publisher, Subscriber}
-
 /**
   * Consolidator.scala
   *
@@ -19,4 +18,11 @@ class Consolidator(observed: List[BankAccount]) extends Subscriber {
   def handler(pub: Publisher) = compute()
 
   def totalBalance = total
+
+}
+
+object Consolidator {
+  def dummyFunc() = println("Dummy")
+
+  def * = println("times func")
 }
