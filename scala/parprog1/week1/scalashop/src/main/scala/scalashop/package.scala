@@ -1,5 +1,4 @@
 
-import common._
 
 package object scalashop {
 
@@ -33,14 +32,39 @@ package object scalashop {
   /** Image is a two-dimensional matrix of pixel values. */
   class Img(val width: Int, val height: Int, private val data: Array[RGBA]) {
     def this(w: Int, h: Int) = this(w, h, new Array(w * h))
+
     def apply(x: Int, y: Int): RGBA = data(y * width + x)
+
     def update(x: Int, y: Int, c: RGBA): Unit = data(y * width + x) = c
   }
 
   /** Computes the blurred RGBA value of a single pixel of the input image. */
   def boxBlurKernel(src: Img, x: Int, y: Int, radius: Int): RGBA = {
-    // TODO implement using while loops
-    ???
-  }
+    if (radius == 0) src(x, y)
+    else {
+      var rSum: Int = 0
+      var gSum: Int = 0
+      var bSum: Int = 0
+      var aSum: Int = 0
 
+      var curY: Int = clamp(y - radius, 0, src.height - 1)
+      var totalPixels: Int = 0
+      while (curY <= clamp(y + radius, 0, src.height - 1)) {
+        var curX: Int = clamp(x - radius, 0, src.width - 1)
+        while (curX <= clamp(x + radius, 0, src.width - 1)) {
+          val rgba = src(curX, curY)
+          rSum += red(rgba)
+          gSum += green(rgba)
+          bSum += blue(rgba)
+          aSum += alpha(rgba)
+
+          totalPixels += 1
+          curX += 1
+        }
+        curY += 1
+      }
+
+      rgba(Math.round(rSum / totalPixels), Math.round(gSum / totalPixels), Math.round(bSum / totalPixels), Math.round(aSum / totalPixels))
+    }
+  }
 }
