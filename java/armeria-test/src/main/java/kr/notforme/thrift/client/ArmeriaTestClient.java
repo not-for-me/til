@@ -1,7 +1,9 @@
 package kr.notforme.thrift.client;
 
+import com.linecorp.armeria.client.ClientBuilder;
 import com.linecorp.armeria.client.Clients;
 import com.linecorp.armeria.client.http.*;
+import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.common.http.*;
 import kr.notforme.thrift.HelloService;
 import org.apache.thrift.TException;
@@ -22,10 +24,10 @@ public class ArmeriaTestClient {
 	public static void main(String[] args) {
 		ArmeriaTestClient client = new ArmeriaTestClient();
 		try {
-//			client.runThriftBasedClient();
-//			client.runAsyncBasedClient();
+			//			client.runThriftBasedClient();
+			//			client.runAsyncBasedClient();
 			client.runHttpBasedClient();
-//			client.runDeprecatedHttpBasedClient();
+			//			client.runDeprecatedHttpBasedClient();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -47,8 +49,12 @@ public class ArmeriaTestClient {
 	}
 
 	private void runHttpBasedClient() throws ExecutionException, InterruptedException {
-		HttpClient httpClient = Clients.newClient(
-				"none+https://api.github.com", HttpClient.class);
+		//		HttpClient httpClient = Clients.newClient(
+		//				"none+https://api.github.com", HttpClient.class);
+
+		HttpClient httpClient = new ClientBuilder("none+https://api.github.com")
+				.defaultWriteTimeoutMillis(10000)
+				.build(HttpClient.class);
 
 		HttpHeaders header = new DefaultHttpHeaders()
 				.add(HttpHeaderNames.ACCEPT, "application/json")
@@ -71,6 +77,7 @@ public class ArmeriaTestClient {
 
 			@Override public void onError(Throwable t) {
 				System.out.println("onError!!");
+				System.out.println(t);
 			}
 
 			@Override public void onComplete() {
@@ -88,7 +95,6 @@ public class ArmeriaTestClient {
 		assert greeting.equals("Hello, Armerian World!");
 		System.out.println(greeting);
 	}
-
 
 	private void runAsyncBasedClient() throws TException {
 		HelloService.AsyncIface helloService = Clients.newClient(
