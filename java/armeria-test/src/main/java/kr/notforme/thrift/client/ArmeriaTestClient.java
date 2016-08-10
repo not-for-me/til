@@ -1,15 +1,14 @@
 package kr.notforme.thrift.client;
 
-import com.linecorp.armeria.client.ClientBuilder;
 import com.linecorp.armeria.client.Clients;
 import com.linecorp.armeria.client.http.*;
-import com.linecorp.armeria.client.logging.LoggingClient;
-import com.linecorp.armeria.common.http.*;
+import com.linecorp.armeria.common.http.AggregatedHttpMessage;
+import com.linecorp.armeria.common.http.HttpHeaderNames;
+import com.linecorp.armeria.common.http.HttpHeaders;
+import com.linecorp.armeria.common.http.HttpMethod;
 import kr.notforme.thrift.HelloService;
 import org.apache.thrift.TException;
 import org.apache.thrift.async.AsyncMethodCallback;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -27,7 +26,7 @@ public class ArmeriaTestClient {
 			//			client.runThriftBasedClient();
 			//			client.runAsyncBasedClient();
 			client.runHttpBasedClient();
-			//			client.runDeprecatedHttpBasedClient();
+//						client.runDeprecatedHttpBasedClient();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,41 +48,15 @@ public class ArmeriaTestClient {
 	}
 
 	private void runHttpBasedClient() throws ExecutionException, InterruptedException {
-		//		HttpClient httpClient = Clients.newClient(
-		//				"none+https://api.github.com", HttpClient.class);
+		HttpClient httpClient = Clients.newClient(
+						"none+https://api.github.com", HttpClient.class);
 
-		HttpClient httpClient = new ClientBuilder("none+https://api.github.com")
-				.defaultWriteTimeoutMillis(10000)
-				.build(HttpClient.class);
+		AggregatedHttpMessage getJson = AggregatedHttpMessage.of(
+				HttpHeaders.of(HttpMethod.GET, "/users/not-for-me")
+						.set(HttpHeaderNames.ACCEPT, "application/json"));
 
-		HttpHeaders header = new DefaultHttpHeaders()
-				.add(HttpHeaderNames.ACCEPT, "application/json")
-				.method(HttpMethod.GET)
-				.path("/users/not-for-me");
-
-		HttpRequest req = new DefaultHttpRequest(header);
-
-		HttpResponse f = httpClient.execute(req);
-
-		f.subscribe(new Subscriber<HttpObject>() {
-			@Override public void onSubscribe(Subscription s) {
-				System.out.println("onSubscribe!!");
-			}
-
-			@Override public void onNext(HttpObject httpObject) {
-				System.out.println("onNext!!");
-				System.out.println(httpObject.toString());
-			}
-
-			@Override public void onError(Throwable t) {
-				System.out.println("onError!!");
-				System.out.println(t);
-			}
-
-			@Override public void onComplete() {
-				System.out.println("Finish!!");
-			}
-		});
+		AggregatedHttpMessage jsonResponse = httpClient.execute(getJson).aggregate().join();
+		System.out.println(jsonResponse.content().toStringUtf8());
 	}
 
 	private void runThriftBasedClient() throws TException {
