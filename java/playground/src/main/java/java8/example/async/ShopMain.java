@@ -2,10 +2,11 @@ package java8.example.async;
 
 import java8.common.CommonUtil;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * ShopMain.java version 2016, 08. 12
@@ -14,22 +15,40 @@ import java.util.stream.Collectors;
  * Ticketmonster PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 public class ShopMain {
-	private static List<Shop> shops = Arrays
-			.asList(new Shop("BestPrice"), new Shop("LetsSaveBig"), new Shop("MyFavoriteShop"), new Shop("BuyItAll"), new Shop("New Shop"),
-					new Shop("Your Shop"), new Shop("Wow Shop"));
+	private static List<Shop> shops = IntStream.range(1, 6)
+			.boxed().map(i -> new Shop("Shop " + String.valueOf(i)))
+			.collect(Collectors.toList());
 
-	private final Executor executor = Executors.newFixedThreadPool(Math.min(shops.size(), 100), new ThreadFactory() {
-		@Override public Thread newThread(Runnable r) {
-			Thread t = new Thread(r);
-			t.setDaemon(true);
-			return t;
-		}
+	private final Executor executor = Executors.newFixedThreadPool(Math.min(shops.size(), 100), r -> {
+		Thread t = new Thread(r);
+		t.setDaemon(true);
+		return t;
 	});
 
 	public static void main(String[] args) {
+		(new ShopMain()).testStreamConcurrency();
 		//		(new ShopMain()).testBasicCompletableFuture();
 		//		(new ShopMain()).testConcurrency();
-		(new ShopMain()).testImprovedConcurrency();
+//		(new ShopMain()).testImprovedConcurrency();
+	}
+
+	private void testStreamConcurrency() {
+		long start = System.nanoTime();
+		// IDE type error ?
+//		CompletableFuture[] futures = findPriceStream("myPhone27S")
+//				.map(f -> f.thenAccept(System.out::println))
+//				.toArray(size -> new CompletableFuture[size]);
+
+
+		CompletableFuture[] futures = findPriceStream("myPhone27S")
+				.map(f -> f.thenAccept(
+						s -> System.out.println(s + " (done in " + ((System.nanoTime() - start) / 1_000_000) + " msecs)")))
+				.toArray(size -> new CompletableFuture[size]);
+
+//		CompletableFuture.allOf(futures).join();
+		CompletableFuture.anyOf(futures).join();
+		long duration = (System.nanoTime() - start) / 1_000_000;
+		System.out.println("Done in " + duration + " msecs");
 	}
 
 	private void testImprovedConcurrency() {
@@ -98,10 +117,20 @@ public class ShopMain {
 				.map(shop -> CompletableFuture.supplyAsync(() -> shop.getPrice(product), executor))
 				.map(future -> future.thenApply(Quote::parse))
 				.map(future -> future.thenCompose(quote -> CompletableFuture.supplyAsync(() -> Discount.applyDiscount(quote), executor)))
+//				.map(future -> future
+//						.thenComposeAsync(quote -> CompletableFuture.supplyAsync(() -> Discount.applyDiscount(quote), executor)))
 				.collect(Collectors.toList());
 
 		return priceFutures.stream()
 				.map(CompletableFuture::join)
 				.collect(Collectors.toList());
+	}
+
+
+	private Stream<CompletableFuture<String>> findPriceStream(String product) {
+		return shops.stream()
+				.map(shop ->CompletableFuture.supplyAsync(() -> shop.getPrice(product), executor))
+				.map(future -> future.thenApply(Quote::parse))
+				.map(future ->future.thenCompose(quote -> CompletableFuture.supplyAsync(() -> Discount.applyDiscount(quote), executor)));
 	}
 }
