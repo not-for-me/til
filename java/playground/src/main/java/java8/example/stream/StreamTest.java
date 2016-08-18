@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
  */
 public class StreamTest {
 	public static void main(String[] args) {
-//		(new StreamTest()).testIsStreamRunLikePipeline();
+		//		(new StreamTest()).testIsStreamRunLikePipeline();
 		(new StreamTest()).testStreamWithRxJava();
 	}
 
@@ -44,7 +44,7 @@ public class StreamTest {
 					return t;
 				})))
 				.map(i -> {
-					System.out.println("[" +Thread.currentThread().getName() + "] First Map: " + i);
+					System.out.println("[" + Thread.currentThread().getName() + "] First Map: " + i);
 					return i;
 				})
 				.observeOn(Schedulers.from(Executors.newSingleThreadExecutor(r -> {
@@ -54,13 +54,28 @@ public class StreamTest {
 					return t;
 				})))
 				.map(i -> {
-					System.out.println("[" +Thread.currentThread().getName() + "] Second Map: " + i);
+					System.out.println("[" + Thread.currentThread().getName() + "] Second Map: " + i);
 					return i;
 				})
 				.filter(i -> i > 5)
-				.toBlocking()
 				.subscribe(i -> {
-					System.out.println("[" +Thread.currentThread().getName() + "] Final : " + i);
+					try {
+						Thread.sleep(10);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					System.out.println("[" + Thread.currentThread().getName() + "] Final : " + i);
 				});
+
+		int i = 0;
+		while (i < 10) {
+			System.out.println("[" + Thread.currentThread().getName() + "] main~~~ : " + i);
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			i++;
+		}
 	}
 }
