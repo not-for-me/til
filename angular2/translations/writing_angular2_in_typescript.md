@@ -107,8 +107,7 @@ interface JQueryXHR {
 Typescript가 Javascript로 컴파일되는 다른 여러 언어와 비교할 때의 한가지 차이점은 Typescript에서 타입정보는 선택사항이라는 점이다. 따라서 `jQuery.ajax(url, settings)`는 Typescript에서 여전히 유효한 코드이다. 그러므로 Typescript에서 타입정보는 온오프 스위치라기 보다는 다이얼에 더 가깝다.(역주: 필요에 따라 선택할 수 있는 버튼과 같다는 의미) 여러분이 봤을 때 타입정보가 읽고 이해하는데 진부하게 느껴지면 타입을 기술하지 않아도 되며, 타입이 필요한 때 타입 저보를 포함하면 된다.
 
 ## TypeScript가 언어의 표현성을 제한하는가?
-Dynamically-typed languages have inferior tooling, but they are more malleable and expressive. I think using TypeScript makes your code more rigid, but to a much lesser degree than people think. Let me show you what I mean. Let’s say I use ImmutableJS to define the Person record.
-
+동적 타입 언어는 도구에 있어서는 부족함이 있지만, 좀 더 유연하고 표현력이 좋다. 내 생각에는 Typescript는 여러분의 코드를 좀 더 엄격하게 만들 수 있지만 그러나 사람들이 생각하는 것보다는 그 정도가 그리 크지 않다. 정말로 그런지 살펴보자. 예제에서 나는 `Person` 레코드를 정의하기 위해서 ImmutableJS를 사용하였다.
 
 ```Typescript
 const PersonRecord = Record({name:null, age:null});
@@ -122,14 +121,13 @@ const p = createPerson("Jim", 44);
 expect(p.name).toEqual("Jim");
 ```
 
-How do we type the record? Let’s start with defining an interface called Person:
-
+우리가 어떻게 위 레코드에 타입 정보를 표기할 수 있을까? `Person`이라는 인터페이스를 정의하면서 시작하자:
 
 ```Typescript
 interface Person { name: string, age: number };
 ```
 
-If we try to do the following:
+만약 우리가 아래와 같이 코드를 작성했다고 한다면:
 
 ```Typescript
 function createPerson(name: string, age: number): Person {
@@ -137,7 +135,7 @@ function createPerson(name: string, age: number): Person {
 }
 ```
 
-the TypeScript compiler will complain. It does not know that PersonRecord is actually compatible with Person because PersonRecord is created reflectively. Some of you with the FP background are probably saying: “If only TypeScript had dependent types!” But it does not. TypeScript’s type system is not the most advanced one. But its goal is different. It is not here to prove that the program is 100% correct. It is about giving you more information and enable greater tooling. So it is OK to take shortcuts when the type system is not flexible enough. So we can just cast the created record, as follows:
+`PersonRecord`는 입력된 인수를 반영하여 생성되었기 때문에 실제로 `Person`과 호환되는지 알 수 없어 TypeScript 컴파일러는 경고를 여러분에게 보여줄 것이다. 여러분 중에 함수형 프로그래밍 경험이 있는 분이라면 다음과 같이 이야기 할수도 있다. "만약 Typescript가 의존타입(Dependent Type)이라도 있었으면..." 그러나 Typescript의 타입시스템은 가장 진보한 형태를 갖고 있는 것은 아니다. Typescript의 목표는 좀 다르다. Typescript는 프로그램의 100% 정확도를 보장하기 위한 것이 아니라 여러분들에게 좀 더 많은 정보와 훌륭한 도구의 사용을 제공하는 것이다. 따라서 타입 시스템이 충분히 유연하지 않을 때 손쉬운 방법을 써도 괜찮다. 따라서 우리는 생성된 레코드의 타입을 다음과 같이 캐스팅 할수 있다.:
 
 ```Typescript
 function createPerson(name: string, age: number): Person {
@@ -145,7 +143,7 @@ function createPerson(name: string, age: number): Person {
 }
 ```
 
-The typed example:
+타입정보가 포함된 예제를 보자:
 
 ```Typescript
 interface Person { name: string, age: number };
@@ -161,14 +159,23 @@ const p = createPerson("Jim", 44);
 expect(p.name).toEqual("Jim");
 ```
 
-The reason why it works is because the type system is structural. As long as the created object has the right fields — name and age — we are good.
-You need to embrace the mindset that it is OK to take shortcuts when working with TypeScript. Only then you will find using the language enjoyable. For instance, don’t try to add types to some funky metaprogramming code — most likely you won’t be able to express it statically. Type everything around that code, and tell the typechecker to ignore the funky bit. In this case you will not lose a lot of expressiveness, and the bulk of your code will remain toolable and analyzable.
-This is similar to trying to get 100% unit test code coverage. Whereas getting 95% is usually not that difficult, getting 100% can be challenging, and may negatively affect the architecture of your application.
+이 코드가 동작하는 이유는 Typescript의 타입시스템이 구조적이기 때문이다. 생성된 객체가 정확한 필드를 소유하고 있는 것으로 (이 예제에서는 `name`과 `age`) 충분하다.
+
+Typescript를 사용할 때 여러분에게 필요한 것은 위와 같은 간단한 방식을 취해도 된다는 태도이며 여러분은 즐겁게 언어를 사용할 수 있다는 점만 발견하게 될 것이다. 예를 들면, 분명히 여러분이 정적으로 코드를 표현할 방법이 없는 어떤 애매한 메타프로그래밍 코드에 타입정보를 추가하려고 하지 마라. 다른 코드에 모두 타입을 추가하고 타입체커에게 애매한 부분을 무시하게 하면 된다. 이러한 경우에 여러분은 표현의 풍부함은 잃지 않으면서도 여러분의 코드의 일부는 여전히 도구의 지원을 받을 수 있고, 분석할 수 있게 된다.
+
+이것은 100% 단위 테스트 커버리지를 이루려는 것과 유사하다. 95%의 커버리지를 달성하는 것은 그리 어렵지 않으나, 100%를 이루려는 것은 상당한 노력이 들고 어쩌면 부정적인 영향을 여러분의 애플리케이션 아키텍쳐에 끼칠 수 있다.
+
+
+
 The optional type system also preserves the JavaScript development workflow. Large parts of your application’s code base can be “broken”, but you can still run it. TypeScript will keep generating JavaScript, even when the type checker complains. This is extremely useful during development.
 
 ## Why TypeScript?
 There are a lot of options available to frontend devs today: ES5, ES6 (Babel), TypeScript, Dart, PureScript, Elm, etc.. So why TypeScript?
+
 Let’s start with ES5. ES5 has one significant advantage over TypeScript: it does not require a transpiler. This allows you to keep your build setup simple. You do not need to set up file watchers, transpile code, generate source maps. It just works.
+
 ES6 requires a transpiler, so the build setup will not be much different from TypeScript. But it is a standard, which means that every single editor and build tool either supports ES6 or will support it. This is a weaker argument that it used to be as most editors at this point have excellent TypeScript support.
+
 Elm and PureScript are elegant languages with powerful type systems that can prove a lot more about your program than TypeScript can. The code written in Elm and PureScript can be a lot terser than similar code written in ES5.
+
 Each of these options has pros and cons, but I think TypeScript is in a sweet spot that makes it a great choice for most projects. TypeScript takes 95% of the usefulness of a good statically-typed language and brings it to the JavaScript ecosystem. You still feel like you write ES6: you keep using the same standard library, same third-party libraries, same idioms, and many of the same tools (e.g., Chrome dev tools). It gives you a lot without forcing you out of the JavaScript ecosystem.
