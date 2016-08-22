@@ -6,7 +6,7 @@
 
 ![Angular2, Typescript 로고](https://raw.githubusercontent.com/not-for-me/til/master/angular2/translations/images/angular2_typescript_logo.png)
 
-Angular2는 Typescript로 작성된 코드이다. 이 글에서 나는 Angular2에서 Typescript를 사용하기로 했는지 설명하기로 한다. 더불어 Typescipt의 사용이 코드의 작성과 리팩토링에 어떤 영향을 주는지에 Typescript를 사용하면서 느꼈던 경험들을 함께 나눌것이다.
+Angular2는 Typescript로 작성된 코드이다. 이 글에서 나는 왜 Angular2에서 Typescript를 사용하기로 했는지 설명하기로 한다. 더불어 Typescipt의 사용이 코드의 작성과 리팩토링에 어떤 영향을 주는지에 Typescript를 사용하면서 느꼈던 경험들을 함께 나눌것이다.
 
 ## 나는 Typescript를 좋아하지만 여러분들은 그럴 필요는 없다.
 Angular2는 Typescript로 작성되었지만 여러분도 Angular2 애플리케이션을 Typescript를 사용할 의무는 없다. Angular2 프레임워크는 ES5, ES6와 Dart 언어로도 훌륭하게 작업할 수 있다.
