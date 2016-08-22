@@ -8,7 +8,7 @@
 
 Angular2는 TypeScript로 작성된 코드이다. 이 글에서는 왜 Angular2에서 TypeScript를 사용하기로 했는지 설명할 것이다. 더불어 TypeScript를 사용하면서 코드 작성과 리팩토링시 어떤 영향을 받았는지 느꼈던 경험들을 함께 나눌 것이다.
 
-## 나는 TypeScript를 좋아하지만 여러분들은 그럴 필요는 없다.
+## 나는 TypeScript를 좋아하지만 여러분들도 그럴 필요는 없다.
 Angular2는 TypeScript로 작성되었지만 여러분도 Angular2 애플리케이션을 TypeScript로 작성할 의무는 없다. Angular2 프레임워크는 ES5, ES6와 Dart 언어로도 훌륭하게 작업할 수 있다.
 
 ## TypeScript는 훌륭한 도구가 있다.
