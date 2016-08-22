@@ -1,8 +1,12 @@
+> Angular2 코어 멤버인 [victorsavkin](https://twitter.com/victorsavkin)의 글 "[Angular2: Why Typescript](https://vsavkin.com/writing-angular-2-in-typescript-1fa77c78d8e8)"을 [허락](https://twitter.com/JoeWoojin/status/746147467951931393)을 받고 번역 하였습니다. 번역에 대한 피드백이나 오류는 주저없이 [트윗](https://twitter.com/JoeWoojin)이나 [메일](mailto:jwj0831@gmail.com)로 알려주세요.
+
+> This post is the translation version of the original post "[Angular2: Why Typescript](https://vsavkin.com/writing-angular-2-in-typescript-1fa77c78d8e8)" with allowed to translate by the author [victorsavkin](https://twitter.com/victorsavkin).
+
 # Angular2에서 Typecript를 사용하는 이유
 
 ![Angular2, Typescript 로고](https://raw.githubusercontent.com/not-for-me/til/master/angular2/translations/images/angular2_typescript_logo.png)
 
-Angular 2는 Typescript로 작성된 코드이다. 이 글에서 나는 Angular2에서 Typescript를 사용하기로 했는지 설명하기로 한다. 더불어 Typescipt의 사용이 코드의 작성과 리팩토링에 어떤 영향을 주는지에 Typescript를 사용하면서 느꼈던 경험들을 함께 나눌것이다.
+Angular2는 Typescript로 작성된 코드이다. 이 글에서 나는 Angular2에서 Typescript를 사용하기로 했는지 설명하기로 한다. 더불어 Typescipt의 사용이 코드의 작성과 리팩토링에 어떤 영향을 주는지에 Typescript를 사용하면서 느꼈던 경험들을 함께 나눌것이다.
 
 ## 나는 Typescript를 좋아하지만 여러분들은 그럴 필요는 없다.
 Angular2는 Typescript로 작성되었지만 여러분도 Angular2 애플리케이션을 Typescript를 사용할 의무는 없다. Angular2 프레임워크는 ES5, ES6와 Dart 언어로도 훌륭하게 작업할 수 있다.
@@ -165,17 +169,17 @@ Typescript를 사용할 때 여러분에게 필요한 것은 위와 같은 간�
 
 이것은 100% 단위 테스트 커버리지를 이루려는 것과 유사하다. 95%의 커버리지를 달성하는 것은 그리 어렵지 않으나, 100%를 이루려는 것은 상당한 노력이 들고 어쩌면 부정적인 영향을 여러분의 애플리케이션 아키텍쳐에 끼칠 수 있다.
 
+선택적으로 타입 시스템을 사용할 수 있다는 것의 의미는 기존의 Javascript 개발 워크플로우도 유지한다는 것을 말한다. 코드 베이스의 상당한부분이 `손상될수도` 여지가 있으나, 여전히 애플리케이션을 실행할 수 있다. 그 이유는 Typecscript는 타입 체커가 에러나 경고를 보여주더라도 Javascript를 생성하는 작업은 유지하기 때문이다. 이러한 점은 개발 시에 매우 편리한 부분이다.
 
+## 왜 TypeScript인가?
+오늘날 프론트엔드 개발에는 ES5, ES6 (Babel), TypeScript, Dart, PureScript, Elm등 선택 가능한 옵션들이 너무나 많이 있다. 그럼에도 불구하고 왜 TypeScript인가?
 
-The optional type system also preserves the JavaScript development workflow. Large parts of your application’s code base can be “broken”, but you can still run it. TypeScript will keep generating JavaScript, even when the type checker complains. This is extremely useful during development.
+ES5부터 살펴보자. ES5는 Typescript 대비 한가지 명백한 장점이 있는데 그것은 ES5는 transpiler가 필요 없다는 점이다. 이러한 점은 애플리케이션의 개발환경 셋팅을 단순화 시켜준다. 여러분은 파일 변화를 감지할 watcher, transpiler, source map 파일의 생성 등을 셋팅할 필요가 없다. 바로 개발하면 될 뿐이다.
 
-## Why TypeScript?
-There are a lot of options available to frontend devs today: ES5, ES6 (Babel), TypeScript, Dart, PureScript, Elm, etc.. So why TypeScript?
+ES6는 transpiler가 필요하기 때문에 개발환경 셋팅의 필요하다는 접에서 Typescript와 크게 다르지 않다. 그러나 ES6는 Javascript 표준이고 이는 일반적인 모든 에디터와 빌드 툴에서 ES6를 지원하거나 지원하게 될것임을 의미한다. 그러나 이러한 점은 현재 대부분의 에디터에서 Typescript를 훌륭하게 지원하고 있다는 사실을 볼 때 약점이 되기도 한다.
 
-Let’s start with ES5. ES5 has one significant advantage over TypeScript: it does not require a transpiler. This allows you to keep your build setup simple. You do not need to set up file watchers, transpile code, generate source maps. It just works.
+Elm과 PureScript는 Typescript보다 여러분의 프로그램의 관해서 더 많이 점검할 수 있는 강력한 타입시스템을 갖춘 우아한 언어들이다. Elm과 PureScript로 작성된 코드는 ES5로 작성된 코드보다 좀 더 간결하게 작성 가능하다.
 
-ES6 requires a transpiler, so the build setup will not be much different from TypeScript. But it is a standard, which means that every single editor and build tool either supports ES6 or will support it. This is a weaker argument that it used to be as most editors at this point have excellent TypeScript support.
+위에서 열거한 언어들은 저마다 장단점을 가지고 있다. 그러나 나는 Typescript가 대부분의 프로젝트에서 적절한 선택이 될 수 있는 상당히 매력적인 지점에 서 있다고 생각한다. Tyescript는 정적 타입 언어로부터 95% 가량의 특징을 취하여 이를 Javascript 생태계로 유입시켰다. 이는 Typescript 개발이 마치 ES6로 코드를 짜는 것과 큰과 느낌을 가져다 준다. 여러분은 변함없 이 ES6와 동일한 표준 라이브러리를 사용하며 동일한 서드파티 라이브러리를 사용할 수 있고, 관용적인 패턴과 (크롬 개발자도구와 같은) 동일한 도구도 그대로 사용할 수 있다. 이러한 사실은 Typescript가 여러분을 Javascript 생태계로 부터 벗어나도록 강제하지 않고 기존의 특징을 그대로 안겨다 준다.
 
-Elm and PureScript are elegant languages with powerful type systems that can prove a lot more about your program than TypeScript can. The code written in Elm and PureScript can be a lot terser than similar code written in ES5.
-
-Each of these options has pros and cons, but I think TypeScript is in a sweet spot that makes it a great choice for most projects. TypeScript takes 95% of the usefulness of a good statically-typed language and brings it to the JavaScript ecosystem. You still feel like you write ES6: you keep using the same standard library, same third-party libraries, same idioms, and many of the same tools (e.g., Chrome dev tools). It gives you a lot without forcing you out of the JavaScript ecosystem.
+저자의 Angular2 Medium: https://vsavkin.com/

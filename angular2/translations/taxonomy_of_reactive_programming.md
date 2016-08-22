@@ -1,6 +1,6 @@
-> Angular2 코어 멤버인 [victorsavkin](https://twitter.com/victorsavkin)의 글 "[THE TAXONOMY OF REACTIVE PROGRAMMING](http://victorsavkin.com/post/146359880996/the-taxonomy-of-reactive-programming)"을 [허락](https://twitter.com/JoeWoojin/status/746147467951931393)을 받고 번역 하였습니다. 번역에 대한 피드백이나 오류는 주저없이 [트윗](https://twitter.com/JoeWoojin)이나 [메일](mailto:jwj0831@gmail.com)로 알려주세요.
+> Angular2 코어 멤버인 [victorsavkin](https://twitter.com/victorsavkin)의 글 "[THE TAXONOMY OF REACTIVE PROGRAMMING](https://vsavkin.com/the-taxonomy-of-reactive-programming-d40e2e23dee4)"을 [허락](https://twitter.com/JoeWoojin/status/746147467951931393)을 받고 번역 하였습니다. 번역에 대한 피드백이나 오류는 주저없이 [트윗](https://twitter.com/JoeWoojin)이나 [메일](mailto:jwj0831@gmail.com)로 알려주세요.
 
-> This post is the translation version of the original post "[THE TAXONOMY OF REACTIVE PROGRAMMING](http://victorsavkin.com/post/146359880996/the-taxonomy-of-reactive-programming)" with allowed to translate by the author [victorsavkin](https://twitter.com/victorsavkin).
+> This post is the translation version of the original post "[THE TAXONOMY OF REACTIVE PROGRAMMING](https://vsavkin.com/the-taxonomy-of-reactive-programming-d40e2e23dee4)" with allowed to translate by the author [victorsavkin](https://twitter.com/victorsavkin).
 
 # 반응형 프로그램 분류
 우리는 모두 반응형 프로그램의 일부 요소를 활용하여 사용자 인터페이스를 구축합니다. 하나의 Todo 항목이 늘었났다고 해봅시다. 화면에 새 항목을 그려줘야 합니다. 이번엔 누군가가 Todo 항목의 제목을 변경했다면 어떨까요? 우리는 DOM의 텍스트 요소를 갱신해줘야 합니다. 이와 같은 일들을 도와줄 수십 종류의 라이브러리들이 이미 존재합니다. 이러한 라이브러리들은 비슷한 점도 있으면서도 각기 다른 점도 가지고 있습니다.
@@ -311,8 +311,8 @@ class CompanyCmp {
 예를 들면, Angular에 대해서 논의할 때 우리는 상태를 도출하기 위하여 외부관찰을 통해 투명한 방식의 반응형 프로그램을 사용하거나 혹은 이벤트를 다루기 위해서 자기관찰을 통해 구체적 방식의 반응형 프로그램을 사용한다고 말할 수 있습니다. 그리고 더 바라기는 여러분은 Angular 개발팀이 이러한 선택지를 만든 이유를 알았으면 합니다. 다른 예로 자기관찰을 통해 투명한 방식의 반응형 프로그램을 사용하며 상태를 다루는 [MobX](https://mobxjs.github.io/mobx/)가 있습니다. 또는 자기 관찰을 통해 구체적 방식의 반응형 프로그램을 지원하는 [Cycle.js](http://cycle.js.org/)를 고려해 볼수도 있습니다.
 
 
-모든 형태의 반응형 프로그램을 이 글을 통해서 알았을까요? 물론 아닙니다! 이 하나의 글을 통해서 반응형 프로그램에 대한 전체 분야를 다뤘다는 것은 순진한 생각입니다. 예를 들면, 저는 푸쉬나 풀 방식, 일급 및 고계함수의 FRP(Functional Reactive Programming), continus FRP, Observable/Iterable duality, back pressure, sampling 등 여러 다른 흥미롭고 중요한 주제를 다루지 않았습니다. 어쩌면 다음 블로그 포스팅의 주제가 될지도 모르겠습니다.  그러니 계속해서 주목해 주세요.
+모든 형태의 반응형 프로그램을 이 글을 통해서 알았을까요? 물론 아닙니다! 이 하나의 글을 통해서 반응형 프로그램에 대한 전체 분야를 다뤘다는 것은 순진한 생각입니다. 예를 들면, 저는 푸쉬나 풀 방식, 일급 및 고계함수의 FRP(Functional Reactive Programming), continus FRP, Observable/Iterable duality, back pressure, sampling 등 여러 다른 흥미롭고 중요한 주제를 다루지 않았습니다. 어쩌면 다음 블로그 포스팅의 주제가 될지도 모르겠습니다. 그러니 계속해서 주목해 주세요.
 
-저자의 블로그: http://victorsavkin.com/
+저자의 Angular2 Medium: https://vsavkin.com/
 
 [^1]: http://www.notforme.kr/archives/1627#template
