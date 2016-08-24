@@ -58,14 +58,25 @@ public class StreamTest {
 					return i;
 				})
 				.filter(i -> i > 5)
-				.subscribe(i -> {
-					try {
-						Thread.sleep(10);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					System.out.println("[" + Thread.currentThread().getName() + "] Final : " + i);
-				});
+				.flatMap(i -> Observable.just(i).map(innerNum -> {
+							try {
+								Thread.sleep(10);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							System.out.println("[" + Thread.currentThread().getName() + "] Final : " + innerNum);
+							return innerNum;
+						}).subscribeOn(Schedulers.from(Executors.newFixedThreadPool(4)))
+				)
+				.subscribe();
+		//				.subscribe(i -> {
+		//					try {
+		//						Thread.sleep(10);
+		//					} catch (InterruptedException e) {
+		//						e.printStackTrace();
+		//					}
+		//					System.out.println("[" + Thread.currentThread().getName() + "] Final : " + i);
+		//				});
 
 		int i = 0;
 		while (i < 10) {

@@ -18,7 +18,7 @@ public class ParallelStreamTest {
 	public static void main(String[] args) throws ExecutionException, InterruptedException {
 		ParallelStreamTest testRunner = new ParallelStreamTest();
 
-		testRunner.testDefaultParallelStream();
+//		testRunner.testDefaultParallelStream();
 		testRunner.testFixedForkJoinPool();
 	}
 
@@ -36,7 +36,9 @@ public class ParallelStreamTest {
 
 		ForkJoinPool myPool = new ForkJoinPool(10);
 		myPool.submit(() -> {
-			IntStream.range(0, 10).parallel().forEach(printNumbersConsumer());
+			IntStream.range(0, 10).parallel()
+					.peek(n -> log.debug("In peek: {}", n) )
+					.forEach(printNumbersConsumer());
 		}).get();
 
 		double estimatedTime = (System.nanoTime() - startTime)/ 1000000000.0;
@@ -50,7 +52,7 @@ public class ParallelStreamTest {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			log.debug("idx: {}", i);
+			log.debug("In foreach: {}", i);
 		};
 	}
 }
