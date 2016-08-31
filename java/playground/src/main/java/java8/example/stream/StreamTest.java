@@ -31,6 +31,7 @@ public class StreamTest {
 					return i;
 				})
 				.filter(i -> i > 5)
+				.sorted()
 				.boxed()
 				.collect(Collectors.toList());
 	}
@@ -69,14 +70,20 @@ public class StreamTest {
 						}).subscribeOn(Schedulers.from(Executors.newFixedThreadPool(4)))
 				)
 				.subscribe();
-		//				.subscribe(i -> {
-		//					try {
-		//						Thread.sleep(10);
-		//					} catch (InterruptedException e) {
-		//						e.printStackTrace();
-		//					}
-		//					System.out.println("[" + Thread.currentThread().getName() + "] Final : " + i);
-		//				});
+//				.subscribeOn(Schedulers.from(Executors.newSingleThreadExecutor(r -> {
+//					Thread t = new Thread(r);
+//					t.setDaemon(true);
+//					t.setName("Sub Thread");
+//					return t;
+//				})))
+//						.subscribe(i -> {
+//							try {
+//								Thread.sleep(10);
+//							} catch (InterruptedException e) {
+//								e.printStackTrace();
+//							}
+//							System.out.println("[" + Thread.currentThread().getName() + "] Final : " + i);
+//						});
 
 		int i = 0;
 		while (i < 10) {
