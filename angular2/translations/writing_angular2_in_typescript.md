@@ -1,15 +1,15 @@
-> Angular2 코어 멤버인 [victorsavkin](https://twitter.com/victorsavkin)의 글 "[Angular2: Why Typescript](https://vsavkin.com/writing-angular-2-in-typescript-1fa77c78d8e8)"을 [허락](https://twitter.com/JoeWoojin/status/746147467951931393)을 받고 번역 하였습니다. 번역에 대한 피드백이나 오류는 주저없이 [트윗](https://twitter.com/JoeWoojin)이나 [메일](mailto:jwj0831@gmail.com)로 알려주세요.
+> Angular 코어 멤버인 [victorsavkin](https://twitter.com/victorsavkin)의 글 "[Angular: Why Typescript](https://vsavkin.com/writing-angular-2-in-typescript-1fa77c78d8e8)"을 [허락](https://twitter.com/JoeWoojin/status/746147467951931393)을 받고 번역 하였습니다. 번역에 대한 피드백이나 오류는 주저없이 [트윗](https://twitter.com/JoeWoojin)이나 [메일](mailto:jwj0831@gmail.com)로 알려주세요.
 
-> This post is the translation version of the original post "[Angular2: Why Typescript](https://vsavkin.com/writing-angular-2-in-typescript-1fa77c78d8e8)" with allowed to translate by the author [victorsavkin](https://twitter.com/victorsavkin).
+> This post is the translation version of the original post "[Angular: Why Typescript](https://vsavkin.com/writing-angular-2-in-typescript-1fa77c78d8e8)" with allowed to translate by the author [victorsavkin](https://twitter.com/victorsavkin).
 
-# Angular2에서 Typecript를 사용하는 이유
+# Angular에서 Typecript를 사용하는 이유
 
-![Angular2, Typescript 로고](https://raw.githubusercontent.com/not-for-me/til/master/angular2/translations/images/angular2_typescript_logo.png)
+![Angular, Typescript 로고](https://raw.githubusercontent.com/not-for-me/til/master/angular2/translations/images/angular2_typescript_logo.png)
 
-Angular2는 TypeScript로 작성된 코드이다. 이 글에서는 왜 Angular2에서 TypeScript를 사용하기로 했는지 설명할 것이다. 더불어 TypeScript를 사용하면서 코드 작성과 리팩토링시 어떤 영향을 받았는지 느꼈던 경험들을 함께 나눌 것이다.
+Angular는 TypeScript로 작성된 코드이다. 이 글에서는 왜 Angular에서 TypeScript를 사용하기로 했는지 설명할 것이다. 더불어 TypeScript를 사용하면서 코드 작성과 리팩토링시 어떤 영향을 받았는지 느꼈던 경험들을 함께 나눌 것이다.
 
 ## 나는 TypeScript를 좋아하지만 여러분들도 그럴 필요는 없다.
-Angular2는 TypeScript로 작성되었지만 여러분도 Angular2 애플리케이션을 TypeScript로 작성할 의무는 없다. Angular2 프레임워크는 ES5, ES6와 Dart 언어로도 훌륭하게 작업할 수 있다.
+Angular는 TypeScript로 작성되었지만 여러분도 Angular 애플리케이션을 TypeScript로 작성할 의무는 없다. Angular 프레임워크는 ES5, ES6와 Dart 언어로도 훌륭하게 작업할 수 있다.
 
 ## TypeScript는 훌륭한 도구가 있다.
 TypeScript의 가장 큰 장점은 도구의 지원이다. **TypeScript는 높은 수준의 코드 자동생성, 코드 탐색과 리팩토링을 제공한다. 이러한 도구들은 일정 규모 이상의 프로젝트에서는 거의 필수적인 요소이다.** 도구의 지원이 없다는 것은 거의 수정하기 어려운 상태의 코드 베이스에 코드를 수정해야만 하는 두려움을 심는 일이고, 대규모의 리팩토링 시 큰 위험성과 비용을 감수해야한다는 것을 의미한다.
@@ -26,7 +26,7 @@ TypeScript는 JavaScript를 포함한 확장된 언어이기 때문에, 여러�
 
 하나의 모듈을 가볍게 골라 js 파일을 ts로 바꿔보자. 그리고 점차 하나씩 타입 정보를 추가하자. 작업이 끝나면 순차적으로 다른 모듈을 골라 똑같은 작업을 하면 된다. 일단 전체 코드베이스가 타입정보를 갖추게 되면, 그때 여러분은TypeScript의 컴파일러 설정을 좀 더 엄격하게 조정할 수도 있다.
 
-이러한 과정은 시간이 좀 필요할 수도 있지만 Angular2를 TypeScript로 전환했던 과정을 보면 그리 큰 문제가 아니었다. 점진적으로 이러환 과정을 진행하면서도 우리는 새로운 기능을 개발하면서 버그를 수정하는 일을 지속할 수 있었다.
+이러한 과정은 시간이 좀 필요할 수도 있지만 Angular를 TypeScript로 전환했던 과정을 보면 그리 큰 문제가 아니었다. 점진적으로 이러환 과정을 진행하면서도 우리는 새로운 기능을 개발하면서 버그를 수정하는 일을 지속할 수 있었다.
 
 
 ## TypeScript는 추상화를 명시적으로 지원한다.
@@ -34,7 +34,7 @@ TypeScript는 JavaScript를 포함한 확장된 언어이기 때문에, 여러�
 
 예를 들어, 도서 판매 애플리케이션을 가정하고 UI나 API와 같은 류의 외부 시스템을 통해 등록된 사용자가 구매할 수 있다고 해보자.
 
-![Angular2, TypeScript 로고](https://raw.githubusercontent.com/not-for-me/til/master/angular2/translations/images/module_diagram.png)
+![Angular, TypeScript 로고](https://raw.githubusercontent.com/not-for-me/til/master/angular2/translations/images/module_diagram.png)
 
 여러분이 보는 것과 같이, `User`, `ExternalSystem` 두 클래스는 모두 구매자의 역할을 한다. 구매자의 개념이 이 애플리케이션에서 매우 중요한 부분임에도 불구하고 코드로 명확하게 표현되지 않는다. `purchase.js`라는 이름의 파일도 없다. 결과적으로 누군가가 코드를 수정할 때 이러한 역할이 있다는 사실을 놓칠 가능성을 내포하게 된다.
 
@@ -64,7 +64,7 @@ class ExternalSystem implements Purchaser {}
 
 **정적타입 언어에서는 하위시스템 간의 경계가 인터페이스를 통해 정의된다. Javascript는 인터페이스가 없으므로, 순수한 Javascript로는 경계가 잘 표현되지 않는다. 명확하게 경계를 확인하기 어려운 경우에 개발자들은 추상화된 인터페이스가 아닌 구상타입에 의존하기 시작하고 이는 강력한 커플링으로 귀결된다.**
 
-나는 TypeSciprt를 적용하기 전과 전환된 후의 Angular2를 모두 사용하면서 이러한 믿음이 더 강화되었다. 인터페이스를 정의하는 작업은 내게 API의 경계를 고민하도록 강제하고, 하위시스템의 퍼블릭 인터페이스를 정의하도록 도우며 부수적으로 일어나는 커플링을 드러나게 한다.
+나는 TypeSciprt를 적용하기 전과 전환된 후의 Angular를 모두 사용하면서 이러한 믿음이 더 강화되었다. 인터페이스를 정의하는 작업은 내게 API의 경계를 고민하도록 강제하고, 하위시스템의 퍼블릭 인터페이스를 정의하도록 도우며 부수적으로 일어나는 커플링을 드러나게 한다.
 
 
 ## TypeScript는 코드를 읽기 쉽게하며 이해를 돕는다.
@@ -180,4 +180,4 @@ Elm과 PureScript는 TypeScript보다 여러분의 프로그램의 관해서 더
 
 위에서 열거한 언어들은 저마다 장단점을 가지고 있다. 그러나 나는 TypeScript가 대부분의 프로젝트에서 적절한 선택이 될 수 있는 상당히 매력적인 지점에 서 있다고 생각한다. TypeScript는 정적 타입 언어로부터 95% 가량의 특징을 취하여 이를 Javascript 생태계로 유입시켰다. 이는 TypeScript 개발이 마치 ES6로 코드를 짜는 것과 같은 s느낌을 가져다 준다. 여러분은 변함없 이 ES6와 동일한 표준 라이브러리를 사용하며 동일한 서드파티 라이브러리를 사용할 수 있고, 관용적인 패턴과 (크롬 개발자도구와 같은) 동일한 도구도 그대로 사용할 수 있다. 이러한 사실은 TypeScript가 여러분을 Javascript 생태계로 부터 벗어나도록 강제하지 않고 기존의 특징을 그대로 안겨다 준다.
 
-저자의 Angular2 Medium: https://vsavkin.com/
+저자의 Angular Medium: https://vsavkin.com/
