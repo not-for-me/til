@@ -1,1 +1,0 @@
-web: java $JVM_OPTS -cp target/uberjar/my-fist-clj-webapp.jar clojure.main -m my-fist-clj-webapp.core
